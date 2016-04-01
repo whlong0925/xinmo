@@ -1,0 +1,15 @@
+.class
+.classpath
+.project
+.war
+.zip
+.rar
+.idea
+*.iml
+.settings/*
+target
+/target/*
+webapp/WEB-INF/classes/*
+logs
+/logs/*
+/bin/

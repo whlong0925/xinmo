@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.xinmo.dao.FunctionMapper">
+	<insert id="insert" parameterType="Function" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO tb_function (
+		name ,
+		description ,
+		path ,
+		action ,
+		status ,
+		parentId ,
+		functionType ,
+		sequence
+		) VALUES (
+		#{name} ,
+		#{description} ,
+		#{path} ,
+		#{action} ,
+		#{status} ,
+		#{parentId} ,
+		#{functionType} ,
+		#{sequence}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="long">
+		delete from tb_function where id = #{id}
+	</delete>
+
+	<update id="updateById" parameterType="Function">
+		UPDATE tb_function SET
+		name = #{name} ,
+		description = #{description} ,
+		path = #{path} ,
+		action = #{action} ,
+		status = #{status} ,
+		parentId = #{parentId} ,
+		functionType = #{functionType} ,
+		sequence = #{sequence}
+		WHERE
+		id = #{id}
+	</update>
+
+	<select id="findById" resultType="Function" parameterType="map">
+		select * from tb_function where id = #{id}
+	</select>
+
+	<select id="findAll" resultType="Function">
+		select * from tb_function
+	</select>
+	<select id="findByType" resultType="Function" parameterType="int">
+		select * from tb_function where functionType = #{functionType}
+	</select>
+</mapper>

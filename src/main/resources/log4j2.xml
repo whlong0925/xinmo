@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="1800">
+
+	<properties>
+		<property name="LOG_HOME">${catalina.base}/logs</property>
+		<property name="CONSOLE_PATTERN">%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n</property>
+	</properties>
+	<Appenders>
+		<!--hammurabi.info.log -->
+		<Console name="Console" target="SYSTEM_OUT" ignoreExceptions="false">
+			<PatternLayout pattern="${CONSOLE_PATTERN}" />
+		</Console>
+		<!-- When bufferedIO is true, this is the buffer size, the default is 8192 
+			bytes. -->
+		<RollingFile name="InfoRollingFile" fileName="${LOG_HOME}/xinmo.info.log"
+			filePattern="${LOG_HOME}/xinmo.info.log.%d{yyyy-MM-dd}" append="true"
+			bufferedIO="true">
+			<PatternLayout pattern="${CONSOLE_PATTERN}" />
+			<Filters>
+				<ThresholdFilter level="ERROR" onMatch="DENY"
+					onMismatch="ACCEPT" />
+			</Filters>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+
+		<!--hammurabi.error.log -->
+		<RollingFile name="ErrorRollingFile" fileName="${LOG_HOME}/xinmo.error.log"
+			filePattern="${LOG_HOME}/xinmo.error.log.%d{yyyy-MM-dd}" append="true"
+			bufferedIO="true">
+			<PatternLayout pattern="${CONSOLE_PATTERN}" />
+			<Filters>
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</Filters>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+		<!--异步appender -->
+		<Async name="AsyncAppender" includeLocation="true" ignoreExceptions="false">
+			<AppenderRef ref="InfoRollingFile" />
+			<AppenderRef ref="ErrorRollingFile" />
+		</Async>
+	</Appenders>
+	<Loggers>
+		<Root level="debug" includeLocation="true">
+			<AppenderRef ref="AsyncAppender" />
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

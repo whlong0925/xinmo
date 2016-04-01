@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.xinmo.dao.RoleMapper" >
+  
+  <insert id="insertRole" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+     INSERT INTO tb_role (name,description,createTime ) VALUES (#{name} ,#{description},NOW());
+  </insert>
+  
+  <delete id="deleteById" parameterType="long" >
+    delete from tb_role  where id = #{id}
+  </delete>
+  
+  <update id="updateById" parameterType="Role" >
+    update tb_role set name = #{name},description = #{description}    where id = #{id}
+  </update>
+  
+  <select id="findById" resultType="Role" parameterType="map" >
+  	select * from tb_role  where id = #{id}
+  </select>
+  
+  <select id="findAll" resultType="Role">
+  	select * from tb_role
+  </select>
+  
+   <resultMap type="com.xinmo.entity.Function" id="itemResult"> </resultMap> 
+    <parameterMap type="map" id="treeMap">
+		<parameter property="p_type" jdbcType="INTEGER"  mode="IN" />
+		<parameter property="p_role_id" jdbcType="INTEGER" mode="IN" />			
+	</parameterMap>
+    <select id="findTree" statementType="CALLABLE" parameterMap="treeMap" resultMap="itemResult">   
+    <![CDATA[   
+    	{call sp_modules(?,?)}   
+    ]]>
+	</select>
+  
+  	<select id="findRolesByUserCode" parameterType="string" resultType="Role">
+  		SELECT r.id,r.name FROM tb_role r 
+  		LEFT JOIN  tb_role_user ru ON r.id=ru.roleId 
+  		LEFT JOIN  tb_user u ON ru.userId = u.id
+		WHERE  u.usercode = #{usercode};
+  	</select>
+  	<select id="findFunctionsByRoleId"  resultType="Function">
+  		SELECT f.name,f.action,f.path FROM tb_role_function rf 
+  		LEFT JOIN tb_function f ON rf.functionId = f.id 
+  		WHERE rf.roleId IN 
+  		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+          #{item}                
+        </foreach>
+  	</select>
+</mapper>

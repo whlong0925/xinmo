@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<description>Shiro配置</description>
+	<!-- 缓存管理器 -->
+    <bean id="cacheManager" class="com.xinmo.shiro.SpringCacheManagerWrapper">
+		<property name="cacheManager" ref="springCacheManager" />
+	</bean>
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm" />
+	</bean>
+
+	<!-- 凭证匹配器 -->
+	<bean id="credentialsMatcher" class="com.xinmo.shiro.RetryLimitHashedCredentialsMatcher">
+		<constructor-arg ref="cacheManager" />
+	</bean>
+
+	<bean id="userRealm" class="com.xinmo.shiro.UserRealm">
+		<property name="permissionResolver" ref="urlPermissionResolver"/>
+		<property name="credentialsMatcher" ref="credentialsMatcher"/>
+		<property name="cachingEnabled" value="false"/>
+	</bean>
+	
+	<!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    
+	<bean id="customAuthorizationFilter" class="com.xinmo.shiro.CustomAuthorizationFilter" />
+	
+	<bean id="urlPermissionResolver" class="com.xinmo.shiro.UrlPermissionResolver" />
+	 
+	 
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- Shiro的核心安全接口,这个属性是必须的 -->
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login"/>
+		<property name="successUrl" value="/index" />
+		<!-- 用户访问未对其授权的资源时,所显示的连接 -->
+		<property name="unauthorizedUrl" value="/unauthz" />
+        <property name="filters">
+            <map>
+                <entry key="cauthz" value-ref="customAuthorizationFilter"/>
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>                
+                /login = anon
+                /captcha/** = anon
+                /img/** = anon
+                /js/** = anon
+                /css/** = anon
+                /logout = logout
+                /unauthz = authc
+                /index = authc
+                /** = cauthz                
+            </value>
+        </property>
+	</bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+</beans>

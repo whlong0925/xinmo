@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+<!-- 引入驱动程序java -->
+  <classPathEntry location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/5.1.33/mysql-connector-java-5.1.33.jar"></classPathEntry>
+
+  <context id="SSMDemo" targetRuntime="MyBatis3">
+    <!--数据库连接的信息：驱动类、连接地址、用户名、密码 --> 
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/auth" userId="root" password="root" ></jdbcConnection>
+     <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+    <!-- targetProject:自动生成代码的位置 -->
+    <javaModelGenerator targetPackage="com.xinmo.entity" targetProject="src/main/java" >  <property name="trimStrings" value="true" /></javaModelGenerator>
+    <sqlMapGenerator targetPackage="com.xinmo.entity" targetProject="src/main/java" >  <property name="trimStrings" value="true" /></sqlMapGenerator>
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.xinmo.dao"  targetProject="src/main/java"> 
+    <property name="enableSubPackages" value="true" /> 
+  </javaClientGenerator>  
+	<!-- schema:数据库名  tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 --> 
+    <table tableName="ss_app" domainObjectName="App" ></table>
+    <table tableName="ss_organization" domainObjectName="Organization" ></table>
+    <table tableName="ss_user" domainObjectName="User" ></table>
+    <table tableName="ss_role" domainObjectName="Role" ></table>
+    
+  </context>
+</generatorConfiguration>
