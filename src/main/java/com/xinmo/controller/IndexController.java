@@ -1,11 +1,15 @@
 package com.xinmo.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +27,7 @@ public class IndexController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(Model model, @RequestParam("usercode") String usercode,
-            @RequestParam("password") String password) {
+            @RequestParam("password") String password,HttpServletRequest request) {
 
         /* 就是代表当前的用户。 */
         Subject currentUser = SecurityUtils.getSubject();
@@ -41,7 +45,12 @@ public class IndexController {
         }
         //验证是否通过 
         if (currentUser.isAuthenticated()) {
-            return "redirect:index";
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            // 获取保存的URL
+            if (savedRequest == null || savedRequest.getRequestUrl() == null) {
+                return "redirect:index";
+            }
+            return "redirect:" + savedRequest.getRequestUrl();
         } else {
             model.addAttribute("errorMessage", "用户名或者密码错误！");
             return "login";
