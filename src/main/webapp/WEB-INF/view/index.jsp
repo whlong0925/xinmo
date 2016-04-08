@@ -32,8 +32,7 @@
     	        	 //如果超时就处理 ，指定要跳转的页面 
     	        	 location.href = '/login';
     	         }
-    		},
-    		dataType: 'json'
+    		}
     		
     	});
     	//左侧菜单点击

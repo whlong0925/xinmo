@@ -65,7 +65,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public V put(K key, V value) throws CacheException {
-        this.logger.debug("根据key从存储 key [" + key + "]");
+        this.logger.debug("redis中存储 key [" + key + "]");
          try {
                 this.cache.set(getByteKey(key), SerializeUtils.serialize(value));
                 return value;
