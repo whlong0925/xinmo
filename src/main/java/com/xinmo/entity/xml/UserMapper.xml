@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.xinmo.dao.UserMapper" >
+
   <resultMap id="UserResultMap" type="com.xinmo.entity.User" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="usercode" property="usercode" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   
   <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-    insert into tb_user (username, usercode, password, status) values (#{username},#{usercode}, #{password}, #{status})
+    insert into tb_user (username, password, status) values (#{username}, #{password}, #{status})
   </insert>
   
   <delete id="deleteById" parameterType="long" >
@@ -20,17 +20,16 @@
   
   <update id="updateById" parameterType="User" >
     update tb_user set username = #{username},
-    			       usercode = #{usercode},
 				      password = #{password},
 				      status = #{status}
     where id = #{id}
   </update>
   
   <select id="findById" resultType="User" parameterType="map" >
-  	select id, username,usercode, password, status from tb_user  where id = #{id}
+  	select id, username, password, status from tb_user  where id = #{id}
   </select>
-  <select id="findByUsercode" resultType="User" parameterType="String" >
-  	select id, username,usercode, password, status from tb_user  where usercode = #{usercode}
+  <select id="findByUsername" resultType="User" parameterType="String" >
+  	select id, username, password, status from tb_user  where username = #{username}
   </select>
   
   <select id="findAll" resultType="User">

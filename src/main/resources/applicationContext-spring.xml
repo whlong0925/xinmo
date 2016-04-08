@@ -15,7 +15,7 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-
+	<bean class="com.xinmo.util.SpringContextHolder"></bean>
 	<!-- 加载配置属性文件 -->
 	<context:property-placeholder ignore-unresolvable="true" location="classpath*:db.properties" />
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
@@ -32,8 +32,8 @@
     <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ehcache.xml"/>
     </bean>
-
-	<import resource="applicationContext-shiro.xml" />
+    
+	<import resource="applicationContext-redis.xml" />
+    <import resource="applicationContext-shiro.xml" />
 	<import resource="applicationContext-mybatis.xml" />
-
 </beans>

@@ -19,7 +19,7 @@ public interface UserService {
 
     public List<User> findAll() throws Exception;
 
-    public User findByUsercode(String usercode) throws Exception;
+    public User findByUsername(String usercode) throws Exception;
 
 
 }

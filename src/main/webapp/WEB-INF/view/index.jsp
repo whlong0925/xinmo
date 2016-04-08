@@ -19,6 +19,23 @@
 	<script src="${webRoot}/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     $(function(){
+    	$.ajaxSetup({
+    		contentType: "application/x-www-form-urlencoded;charset=utf-8",
+    		//type: "POST",
+    		beforeSend: function(){
+    			//$.messager.progress();
+    		},
+    		complete:function(XMLHttpRequest,textStatus){
+    			debugger;
+    			var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); //通过XMLHttpRequest取得响应头，sessionstatus，  
+    	         if(sessionstatus=="timeout"){ 
+    	        	 //如果超时就处理 ，指定要跳转的页面 
+    	        	 location.href = '/login';
+    	         }
+    		},
+    		dataType: 'json'
+    		
+    	});
     	//左侧菜单点击
     	$("ul.j_menu li").click(function(){
     		$("ul.j_menu li").removeClass("active");

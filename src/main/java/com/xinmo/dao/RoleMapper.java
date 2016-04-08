@@ -22,7 +22,7 @@ public interface RoleMapper {
 
     List<Function> findTree(Map<String, Integer> pMap);
 
-    List<Role> findRolesByUserCode(String usercode);
+    List<Role> findRolesByUserName(String userName);
 
     List<Function> findFunctionsByRoleId(List<Integer> roleIds);
 }

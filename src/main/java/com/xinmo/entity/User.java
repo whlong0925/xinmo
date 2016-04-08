@@ -1,9 +1,11 @@
 package com.xinmo.entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = -1640280890387664977L;
     private Long id;
     private String username;
-    private String usercode;
     private String password;
     private int status;
 
@@ -29,14 +31,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUsercode() {
-        return this.usercode;
-    }
-
-    public void setUsercode(String usercode) {
-        this.usercode = usercode;
     }
 
     public int getStatus() {

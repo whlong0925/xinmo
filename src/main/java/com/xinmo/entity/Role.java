@@ -1,11 +1,16 @@
 package com.xinmo.entity;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Role {
+public class Role  implements Serializable{
+   
+    private static final long serialVersionUID = -1906682184478132253L;
+    
     private Integer id;
     private String name;
     private String description;

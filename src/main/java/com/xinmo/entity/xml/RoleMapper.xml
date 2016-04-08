@@ -34,11 +34,11 @@
     ]]>
 	</select>
   
-  	<select id="findRolesByUserCode" parameterType="string" resultType="Role">
+  	<select id="findRolesByUserName" parameterType="string" resultType="Role">
   		SELECT r.id,r.name FROM tb_role r 
   		LEFT JOIN  tb_role_user ru ON r.id=ru.roleId 
   		LEFT JOIN  tb_user u ON ru.userId = u.id
-		WHERE  u.usercode = #{usercode};
+		WHERE  u.username = #{username};
   	</select>
   	<select id="findFunctionsByRoleId"  resultType="Function">
   		SELECT f.name,f.action,f.path FROM tb_role_function rf 

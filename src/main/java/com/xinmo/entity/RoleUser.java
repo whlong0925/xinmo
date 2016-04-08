@@ -1,11 +1,14 @@
 package com.xinmo.entity;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class RoleUser {
+public class RoleUser  implements Serializable {
+    private static final long serialVersionUID = -5647752654563613177L;
     private Integer id;
     private Integer roleId;
     private Long userId;

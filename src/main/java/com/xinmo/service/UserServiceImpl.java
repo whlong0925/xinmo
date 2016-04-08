@@ -1,18 +1,21 @@
 package com.xinmo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xinmo.dao.UserMapper;
 import com.xinmo.entity.User;
 
-import java.util.*;
-
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public int insertUser(User user)  throws Exception{
@@ -45,8 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsercode(String username) throws Exception {
-        return this.userMapper.findByUsercode(username);
+    public User findByUsername(String username) throws Exception {
+        return this.userMapper.findByUsername(username);
     }
 
     

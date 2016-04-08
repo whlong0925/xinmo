@@ -17,23 +17,29 @@ public class RetryLimitHashedCredentialsMatcher extends SimpleCredentialsMatcher
 
     private Cache<String, AtomicInteger> passwordRetryCache;
 
+    private String postfix = ":retry-cache";
+    
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
-        this.passwordRetryCache = cacheManager.getCache("passwordRetryCache");
+        this.passwordRetryCache = cacheManager.getCache("shiro-password-retry-cache");
     }
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authcToken, AuthenticationInfo info) {
+        
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+        
         String username = token.getUsername();
+        
+        String key = username + this.postfix;
         //retry count + 1
-        AtomicInteger retryCount = this.passwordRetryCache.get(username);
+        AtomicInteger retryCount = this.passwordRetryCache.get(key);
         if(retryCount == null) {
             retryCount = new AtomicInteger(0);
-            this.passwordRetryCache.put(username, retryCount);
+            this.passwordRetryCache.put(key, retryCount);
         }
-        if(retryCount.incrementAndGet() > 5) {
-            //if retry count > 5 throw
-            throw new ExcessiveAttemptsException();
+        int count = retryCount.incrementAndGet();
+        if(count > 5) {
+            throw new ExcessiveAttemptsException("登陆失败次数超过5次，账号被锁定");
         }
         
         boolean matches = false;
@@ -46,7 +52,9 @@ public class RetryLimitHashedCredentialsMatcher extends SimpleCredentialsMatcher
             e.printStackTrace();
         }
         if(matches) {
-            this.passwordRetryCache.remove(username);
+            this.passwordRetryCache.remove(key);
+        }else{
+            this.passwordRetryCache.put(key, new AtomicInteger(count)); 
         }
         return matches;
     }

@@ -45,8 +45,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> findRoles(String usercode) {
-        List<Role> listRoles = this.roleMapper.findRolesByUserCode(usercode);
+    public List<Role> findRoles(String username) {
+        List<Role> listRoles = this.roleMapper.findRolesByUserName(username);
         return listRoles;
     }
 

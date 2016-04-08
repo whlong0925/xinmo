@@ -26,63 +26,74 @@ import com.xinmo.service.RoleService;
 import com.xinmo.service.UserService;
 import com.xinmo.util.Constants;
 
-public class UserRealm extends AuthorizingRealm  {
-    @Autowired 
+public class UserRealm extends AuthorizingRealm {
+    @Autowired
     private UserService userService;
-    @Autowired 
+    @Autowired
     private RoleService roleService;
+
+    public static final String AUTHORIZATIONINFO_CACHE_KEY = "AuthorizationInfo_cache_";
+
     /**
      * 获取授权信息
      */
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-	    String username = (String)principals.getPrimaryPrincipal();
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(
+            PrincipalCollection principals) {
+        String username = (String) principals.getPrimaryPrincipal();
+        SimpleAuthorizationInfo authorizationInfo = null;
+        authorizationInfo = new SimpleAuthorizationInfo();
         List<Role> roles = this.roleService.findRoles(username);
         Set<String> roleSet = new HashSet<>();
         List<Integer> roleIdList = new ArrayList<>();
-        for(Role role : roles){
+        for (Role role : roles) {
             roleSet.add(role.getName());
             roleIdList.add(role.getId());
         }
         authorizationInfo.setRoles(roleSet);
-        List<Function> functionList = this.roleService.findPermissions(roleIdList);
+        List<Function> functionList = this.roleService
+            .findPermissions(roleIdList);
         Set<String> functionSet = new HashSet<>();
-        for(Function function : functionList){
-            if(StringUtils.isNotEmpty(function.getPath())){
+        for (Function function : functionList) {
+            if (StringUtils.isNotEmpty(function.getPath())) {
                 functionSet.add(function.getPath());
             }
         }
         authorizationInfo.setStringPermissions(functionSet);
-        return authorizationInfo;
-	}
 
-	/**
-	 * 获取身份认证信息
-	 */
-	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-		String username = usernamePasswordToken.getUsername();
+        return authorizationInfo;
+    }
+
+    /**
+     * 获取身份认证信息
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(
+            AuthenticationToken token) throws AuthenticationException {
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
+        String username = usernamePasswordToken.getUsername();
         User user = null;
         try {
-            user = this.userService.findByUsercode(username);
+            user = this.userService.findByUsername(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(user == null) {
+        if (user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
-        
-		//如果身份认证验证成功，返回一个AuthenticationInfo实现
-		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getUsercode(),user.getPassword(),"userrealm");
 
-		if(this.getCredentialsMatcher().doCredentialsMatch(token,info)){
-		    SecurityUtils.getSubject().getSession().setAttribute(Constants.SESSION_USER,  user);
-			return info;
-		}else{
-			throw new AuthenticationException("username or password incorrect !");
-		}
-	}
+        //如果身份认证验证成功，返回一个AuthenticationInfo实现
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
+            user.getUsername(), user.getPassword(), "userrealm");
+
+        if (this.getCredentialsMatcher().doCredentialsMatch(token, info)) {
+            SecurityUtils.getSubject().getSession()
+                .setAttribute(Constants.SESSION_USER, user);
+            return info;
+        } else {
+            throw new AuthenticationException(
+                "username or password incorrect !");
+        }
+    }
 
 }
