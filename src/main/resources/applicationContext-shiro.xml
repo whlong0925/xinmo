@@ -72,6 +72,7 @@
 	
     
 	<bean id="customAuthorizationFilter" class="com.xinmo.shiro.CustomAuthorizationFilter" />
+	<bean id="customUserFilter" class="com.xinmo.shiro.CustomUserFilter" />
 	
 	<bean id="urlPermissionResolver" class="com.xinmo.shiro.UrlPermissionResolver" />
 	 
@@ -79,7 +80,7 @@
 		<property name="cacheManager" ref="cacheManager"/>
 		<property name="sessionManager" ref="sessionManager"/>
 		<property name="kickoutAfter" value="false"/>
-		<property name="maxSession" value="2"/>
+		<property name="maxSession" value="1"/>
 		<property name="kickoutUrl" value="/login"/>
 	</bean>
 	 
@@ -93,13 +94,15 @@
 		<property name="unauthorizedUrl" value="/unauthz" />
         <property name="filters">
             <map>
+                <entry key="cuser" value-ref="customUserFilter"/>
                 <entry key="cauthz" value-ref="customAuthorizationFilter"/>
                 <entry key="kickout" value-ref="kickoutSessionControlFilte"/>
             </map>
         </property>
         <property name="filterChainDefinitions">
             <value>  
-            	/ = anon              
+            	/ = anon  
+            	/favicon.ico = anon            
                 /captcha/** = anon
                 /img/** = anon
                 /js/** = anon
@@ -109,7 +112,7 @@
                 /login = anon
                 /unauthz = authc
                 /index = authc
-                /** = kickout,cauthz                
+                /** = cuser,kickout,cauthz                
             </value>
         </property>
 	</bean>

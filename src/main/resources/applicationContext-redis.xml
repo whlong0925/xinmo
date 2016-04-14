@@ -36,7 +36,7 @@
     
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
     	<constructor-arg ref="poolConfig" />    
-        <constructor-arg value="${redis.hostName}" />    
+        <constructor-arg type="String" value="${redis.hostName}" />    
         <constructor-arg type="int" value="${redis.port}" />    
     </bean>
     

@@ -14,13 +14,13 @@ import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
 
 public class RedisCache<K, V> implements Cache<K, V> {
-    
+
     private Logger logger = LogManager.getLogger(this.getClass());
-        
+
     private RedisManager cache;
-    
+
     private String keyPrefix = "redis-cache:";
-    
+
     public String getKeyPrefix() {
         return this.keyPrefix;
     }
@@ -28,34 +28,34 @@ public class RedisCache<K, V> implements Cache<K, V> {
     public void setKeyPrefix(String keyPrefix) {
         this.keyPrefix = keyPrefix;
     }
-    
-    public RedisCache(RedisManager cache){
-         if (cache == null) {
-             throw new IllegalArgumentException("Cache argument cannot be null.");
-         }
-         this.cache = cache;
+
+    public RedisCache(RedisManager cache) {
+        if (cache == null) {
+            throw new IllegalArgumentException("Cache argument cannot be null.");
+        }
+        this.cache = cache;
     }
-    
-    public RedisCache(RedisManager cache, String prefix){
-        this( cache );
+
+    public RedisCache(RedisManager cache, String prefix) {
+        this(cache);
         this.keyPrefix = prefix;
     }
-    
-    private byte[] getByteKey(K key){
-        if(key instanceof String){
+
+    private byte[] getByteKey(K key) {
+        if (key instanceof String) {
             String preKey = this.keyPrefix + key;
             return preKey.getBytes();
-        }else{
+        } else {
             return SerializeUtils.serialize(key);
         }
     }
-    
+
     @Override
     public V get(K key) throws CacheException {
         this.logger.debug("根据key从Redis中获取对象 key [" + key + "]");
         try {
             byte[] rawValue = this.cache.get(getByteKey(key));
-            V value = (V)SerializeUtils.deserialize(rawValue);
+            V value = (V) SerializeUtils.deserialize(rawValue);
             return value;
         } catch (Throwable t) {
             throw new CacheException(t);
@@ -66,12 +66,12 @@ public class RedisCache<K, V> implements Cache<K, V> {
     @Override
     public V put(K key, V value) throws CacheException {
         this.logger.debug("redis中存储 key [" + key + "]");
-         try {
-                this.cache.set(getByteKey(key), SerializeUtils.serialize(value));
-                return value;
-            } catch (Throwable t) {
-                throw new CacheException(t);
-            }
+        try {
+            this.cache.set(getByteKey(key), SerializeUtils.serialize(value));
+            return value;
+        } catch (Throwable t) {
+            throw new CacheException(t);
+        }
     }
 
     @Override
@@ -113,10 +113,10 @@ public class RedisCache<K, V> implements Cache<K, V> {
             Set<byte[]> keys = this.cache.keys(this.keyPrefix + "*");
             if (CollectionUtils.isEmpty(keys)) {
                 return Collections.emptySet();
-            }else{
+            } else {
                 Set<K> newKeys = new HashSet<>();
-                for(byte[] key:keys){
-                    newKeys.add((K)key);
+                for (byte[] key : keys) {
+                    newKeys.add((K) key);
                 }
                 return newKeys;
             }
@@ -133,7 +133,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
                 List<V> values = new ArrayList<>(keys.size());
                 for (byte[] key : keys) {
                     @SuppressWarnings("unchecked")
-                    V value = get((K)key);
+                    V value = get((K) key);
                     if (value != null) {
                         values.add(value);
                     }

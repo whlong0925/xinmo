@@ -32,7 +32,8 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private RoleService roleService;
 
-    public static final String AUTHORIZATIONINFO_CACHE_KEY = "AuthorizationInfo_cache_";
+    public static final String AUTHORIZATIONINFO_CACHE_KEY = "AuthorizationInfo-cache-";
+    public static final String AUTHENTICATIONINFO_CACHE_KEY = "AuthenticationInfo-cache-";
 
     /**
      * 获取授权信息
@@ -95,5 +96,19 @@ public class UserRealm extends AuthorizingRealm {
                 "username or password incorrect !");
         }
     }
-
+    @Override
+    protected Object getAuthorizationCacheKey(PrincipalCollection principals) {
+        if(principals!=null){
+            String cacheString = principals.toString();
+            return AUTHORIZATIONINFO_CACHE_KEY + cacheString;
+        }
+        return principals;
+    }
+    @Override
+    protected Object getAuthenticationCacheKey(AuthenticationToken token) {
+        if(token!=null){
+            return AUTHENTICATIONINFO_CACHE_KEY + token.getPrincipal();
+        }
+        return token;
+    }
 }

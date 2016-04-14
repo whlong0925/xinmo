@@ -17,7 +17,7 @@ public class RetryLimitHashedCredentialsMatcher extends SimpleCredentialsMatcher
 
     private Cache<String, AtomicInteger> passwordRetryCache;
 
-    private String postfix = ":retry-cache";
+    private String keyPrefix = "retry-cache:";
     
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
         this.passwordRetryCache = cacheManager.getCache("shiro-password-retry-cache");
@@ -30,7 +30,7 @@ public class RetryLimitHashedCredentialsMatcher extends SimpleCredentialsMatcher
         
         String username = token.getUsername();
         
-        String key = username + this.postfix;
+        String key = this.keyPrefix + username;
         //retry count + 1
         AtomicInteger retryCount = this.passwordRetryCache.get(key);
         if(retryCount == null) {

@@ -1,14 +1,10 @@
 package com.xinmo.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.SavedRequest;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +22,7 @@ public class IndexController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(Model model, @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            HttpServletRequest request) {
+            @RequestParam("password") String password) {
         // 就是代表当前的用户。
         Subject currentUser = SecurityUtils.getSubject();
         //获取基于用户名和密码的令牌 
@@ -44,18 +39,12 @@ public class IndexController {
         }
         //验证是否通过 
         if (currentUser.isAuthenticated()) {
-            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-            // 获取保存的URL
-            if (savedRequest == null || savedRequest.getRequestUrl() == null) {
-                return "redirect:index";
-            }
-            return "redirect:" + savedRequest.getRequestUrl();
+            return "redirect:index";
         } else {
             model.addAttribute("errorMessage", "用户名或者密码错误！");
             return "login";
         }
     }
-
 
     @RequestMapping(value = "/unauthz")
     public String unauth() {

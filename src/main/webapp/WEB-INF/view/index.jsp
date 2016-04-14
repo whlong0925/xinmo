@@ -58,6 +58,7 @@
         type:methodType,
         url:url,
         data:data,
+        dataType:'html',
         success:function(data){
           $(".j_content").html(data);
         }
