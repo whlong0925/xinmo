@@ -102,6 +102,7 @@
         <property name="filterChainDefinitions">
             <value>  
             	/ = anon  
+            	/kaptcha.jpg = anon
             	/favicon.ico = anon            
                 /captcha/** = anon
                 /img/** = anon
