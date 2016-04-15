@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>Pagination Taglib</description>
+	<display-name>JSTL functions</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>p</short-name>
+	<uri>http://www.xinmo.net/xinmo</uri>
+	<tag>
+		<description>分页标签</description>
+		<name>pagination</name>
+		<tag-class>com.xinmo.util.PaginationTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>后台封装好的page对象</description>
+			<name>pageObj</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>翻页要请求的链接</description>
+			<name>hrefLink</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			其他的在翻页时需要附带的条件，如：查询条件，排序条件等;
+			 需要是一个Map,key = String, value=Object,如：需要存一个name="张三"的条件,需要map.put("name","张三");这个条件会以post的方式传给后台，不需要转码！
+			</description>
+			<name>otherParams</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

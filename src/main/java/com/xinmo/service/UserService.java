@@ -3,6 +3,7 @@ package com.xinmo.service;
 
 import java.util.List;
 
+import com.xinmo.entity.Page;
 import com.xinmo.entity.User;
 
 public interface UserService {
@@ -20,6 +21,8 @@ public interface UserService {
     public List<User> findAll() throws Exception;
 
     public User findByUsername(String usercode) throws Exception;
+
+	public Page<User> findByPage(Page<User> pager) throws Exception;
 
 
 }

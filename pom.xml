@@ -157,7 +157,6 @@
 		    <version>2.2</version>  
 		</dependency>
 		
-		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -187,7 +186,6 @@
 			<version>2.3.2</version>
 		</dependency>
 	</dependencies>
-	
 	<build>
 		<finalName>SSMDemo</finalName>
 		<plugins>

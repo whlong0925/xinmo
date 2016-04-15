@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xinmo.dao.UserMapper;
+import com.xinmo.entity.Page;
 import com.xinmo.entity.User;
 
 @Service("userService")
@@ -51,7 +52,13 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) throws Exception {
         return this.userMapper.findByUsername(username);
     }
-
-    
-
+ 
+	@Override
+	public Page<User> findByPage(Page<User> pager) throws Exception {
+		List<User> userList = this.userMapper.findByPage(pager.getParam());
+		pager.setResult(userList);
+		long totalCount = this.userMapper.getTotalCount(pager.getParam());
+		pager.setTotalCount(totalCount);
+		return pager;
+	}
 }

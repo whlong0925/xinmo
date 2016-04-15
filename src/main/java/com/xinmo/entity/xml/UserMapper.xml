@@ -9,7 +9,10 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
-  
+  <sql id="user_sql_where">
+  		<if test="username!=null and username!=''">and username = #{username}</if>
+  	 	<if test="status!=null and status!=''">and status = #{status}</if>
+  </sql>
   <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
     insert into tb_user (username, password, status) values (#{username}, #{password}, #{status})
   </insert>
@@ -36,5 +39,13 @@
   	select * from tb_user
   </select>
   
-  
+  <select id="getTotalCount" resultType="java.lang.Long" parameterType="map">
+  	 select count(1) from tb_user where 1=1
+  	 <include refid="user_sql_where"></include>
+  </select>
+  <select id="findByPage" parameterType="map" resultType="User">
+  	select * from tb_user where 1=1 
+  	<include refid="user_sql_where"></include>
+  	limit #{start},#{pageSize}
+  </select>
 </mapper>

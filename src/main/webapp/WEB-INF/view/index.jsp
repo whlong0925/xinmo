@@ -2,14 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
+<%@ taglib prefix="g" uri="http://www.xinmo.net/xinmo"%>
 <c:set var="webRoot" value="${pageContext.request.contextPath}"/>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
     <title>xx后台系统</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Admin panel developed with the Bootstrap from Twitter.">
-    <meta name="author" content="travis">
 
     <link href="${webRoot}/css/bootstrap.css" rel="stylesheet" />
 	<link href="${webRoot}/css/site.css" rel="stylesheet" />

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="g" uri="http://www.xinmo.net/xinmo"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row-fluid">
 	<div class="page-header">
@@ -16,7 +17,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${userList}" var="item" varStatus="loop">
+			<c:forEach items="${pager.result}" var="item" varStatus="loop">
 				<tr class="list-users">
 					<td>${loop.count}</td>
 					<td>${item.username}</td>
@@ -49,6 +50,7 @@
 			<li><a href="#">Next</a></li>
 		</ul>
 	</div>
+	<div><g:pagination pageObj="${pager}" otherParams="${pager.param}" hrefLink="user/list" /></div>
 	<a href="#" class="btn btn-success j_add" action="user/0">New User</a>
 </div>
 <script>

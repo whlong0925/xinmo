@@ -1,6 +1,8 @@
 package com.xinmo.controller;
 
-import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.xinmo.entity.Page;
 import com.xinmo.entity.User;
 import com.xinmo.service.UserService;
 import com.xinmo.util.SecurityUtil;
@@ -17,14 +20,15 @@ import com.xinmo.util.SecurityUtil;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController{
     @Autowired
     private UserService userService;
     
     @RequestMapping(value = "/list")
-    public String list(Model model)  throws Exception{
-        List<User> userList = this.userService.findAll();
-        model.addAttribute("userList", userList);
+    public String list(Model model,HttpServletRequest request)  throws Exception{
+    	Page<User> pager = new Page<User>(request);
+        this.userService.findByPage(pager);
+        model.addAttribute("pager", pager);
         return "user/list";
     }
 

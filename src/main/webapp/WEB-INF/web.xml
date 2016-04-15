@@ -81,5 +81,10 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.xinmo.net/xinmo</taglib-uri>
+			<taglib-location>/WEB-INF/tld/xinmo.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 </web-app>
