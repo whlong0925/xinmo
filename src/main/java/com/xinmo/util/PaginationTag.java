@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
@@ -15,26 +14,17 @@ import com.xinmo.entity.Page;
 
 public class PaginationTag<T> extends TagSupport {
 	private static final long serialVersionUID = -930833808400179710L;
-	/** 处理分页的action path */
 	private Page<T> pageObj;
 	private String hrefLink;
-
-	public void setHrefLink(String hrefLink) {
-		this.hrefLink = hrefLink;
-	}
-
-	/** 页面数 */
+	/**接收分页返回值的节点ID*/
+	private String contentId;
+	/**分页提交是否是ajax方式*/
+	private boolean isAjax;
+	/** 总记录数 */
 	private Integer total;
 
 	/** 当前页码 */
 	private Integer num;
-
-	/** 其他参数,key为键value为值。 */
-	private Map<String, Object> otherParams;
-
-	public void setOtherParams(Map<String, Object> otherParams) {
-		this.otherParams = otherParams;
-	}
 
 	public void setPageObj(Page<T> pageObj) {
 		this.pageObj = pageObj;
@@ -63,7 +53,6 @@ public class PaginationTag<T> extends TagSupport {
 			return (num + 1);
 		}
 	}
-
 	public int doStartTag() throws JspException {
 		StringBuilder sb = new StringBuilder();
 		List<Long> pages = getPagedList();// 取得要显示的页码！
@@ -75,32 +64,34 @@ public class PaginationTag<T> extends TagSupport {
 					.append(hrefLink)
 					.append("' method='post' id='_pageForm'><input type='hidden' name='pageNo' id='_pageNo'/>")
 					.append(initParam());
+			sb.append("<div class='pagination'><ul>");
 			if (pageObj.hasPreviousPage()) {
-				sb.append("<a href='javascript:void(0);' onClick=\"goPage('"
+				sb.append("<li><a href='javascript:void(0);' onClick=\"goPage('"
 						+ pageObj.getPreviousPageNo()
-						+ "');return false;\"> <  Prev</a>");
+						+ "');return false;\"> Prev</a>");
 			} else {
-				sb.append("<span class='disabled'> <  Prev</span>");
+				sb.append("<li><a href='#'>Prev</a></li>");
 			}
 			for (int i = 0; i < pages.size(); i++) {
 				if (pages.get(i).equals(pageObj.getCurrentPageNo())) {
-					sb.append("<span class='current'>" + pages.get(i)
-							+ "</span>");
+					sb.append("<li class='active'><a href='#'>" + pages.get(i)
+							+ "</a></li>");
 				} else {
-					sb.append("<a href='javascript:void(0);' onClick=\"goPage('"
+					sb.append("<li><a href='javascript:void(0);' onClick=\"goPage('"
 							+ pages.get(i)
 							+ "');return false;\">"
-							+ pages.get(i) + "</a>");
+							+ pages.get(i) + "</a></li>");
 				}
 			}
 			if (pageObj.hasNextPage()) {
-				sb.append("<a href='javascript:void(0);' onClick=\"goPage('"
+				sb.append("<li><a href='javascript:void(0);' onClick=\"goPage('"
 						+ pageObj.getNextPageNo()
-						+ "');return false;\">Next  > </a>");
+						+ "');return false;\">Next </a></li>");
 			} else {
-				sb.append("<span class='disabled'>Next  > </span>");
+				sb.append("<li><a href='#'>Next</a></li>");
 			}
-			sb.append("</form><script type='text/javascript'>function goPage(num){document.getElementById('_pageNo').value=num;document.getElementById('_pageForm').submit();}</script>");
+			sb.append("</ul></div></form>");
+			buildSubmitJs(sb);
 		}
 		try {
 			JspWriter out = pageContext.getOut();
@@ -109,7 +100,23 @@ public class PaginationTag<T> extends TagSupport {
 		} catch (IOException e) {
 			throw new JspException(e);
 		}
+	}
 
+	private void buildSubmitJs(StringBuilder sb) {
+		sb.append("<script type='text/javascript'>").append("function goPage(num){document.getElementById('_pageNo').value=num;");
+		if(isAjax){
+			sb.append("$.ajax({type: 'POST', url:'")
+			.append(hrefLink)
+			.append("',")
+			.append(" data:$('#_pageForm').serialize(),")
+			.append(" success: function(data) { $('")
+			.append(contentId)
+			.append("').html(data);  } });}");
+		}else{
+			sb.append("document.getElementById('_pageForm').submit();}");
+		}
+		sb.append("</script>");
+		System.out.println(sb.toString());
 	}
 
 	// 得到要显示的页数。
@@ -145,16 +152,16 @@ public class PaginationTag<T> extends TagSupport {
 
 	// 将传进来的参数拼成隐藏的input
 	private String initParam() {
-		if (otherParams == null) {
+		if (pageObj == null || pageObj.getParam() == null) {
 			return "";
 		}
-		Set<String> keys = otherParams.keySet();
+		Set<String> keys = pageObj.getParam().keySet();
 		StringBuilder sb = new StringBuilder();
 		Iterator<String> iterator = keys.iterator();
 		String oneKey;
 		while (iterator.hasNext()) {
 			oneKey = iterator.next();
-			Object val = otherParams.get(oneKey);
+			Object val = pageObj.getParam().get(oneKey);
 			if (val != null && !val.toString().equals("")) {
 				sb.append("<input type='hidden' name='").append(oneKey)
 						.append("' value='").append(val).append("'>");
@@ -162,4 +169,25 @@ public class PaginationTag<T> extends TagSupport {
 		}
 		return sb.toString();
 	}
+	public void setHrefLink(String hrefLink) {
+		this.hrefLink = hrefLink;
+	}
+	public String getContentId() {
+		return contentId;
+	}
+
+	public void setContentId(String contentId) {
+		this.contentId = contentId;
+	}
+
+	public boolean getIsAjax() {
+		return isAjax;
+	}
+
+	public void setIsAjax(boolean isAjax) {
+		this.isAjax = isAjax;
+	}
+
+	
+	
 }

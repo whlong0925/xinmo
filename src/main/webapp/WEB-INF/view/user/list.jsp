@@ -40,17 +40,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">
-		<ul>
-			<li><a href="#">Prev</a></li>
-			<li class="active"><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">Next</a></li>
-		</ul>
-	</div>
-	<div><g:pagination pageObj="${pager}" otherParams="${pager.param}" hrefLink="user/list" /></div>
+	<g:pagination pageObj="${pager}" isAjax="true" contentId=".j_content" hrefLink="user/list" />
 	<a href="#" class="btn btn-success j_add" action="user/0">New User</a>
 </div>
 <script>

@@ -26,10 +26,17 @@
 		</attribute>
 		<attribute>
 			<description>
-			其他的在翻页时需要附带的条件，如：查询条件，排序条件等;
-			 需要是一个Map,key = String, value=Object,如：需要存一个name="张三"的条件,需要map.put("name","张三");这个条件会以post的方式传给后台，不需要转码！
+			判断是否ajax获取分页数据方式
 			</description>
-			<name>otherParams</name>
+			<name>isAjax</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+			如果是ajax提交分页，则必须指定接收分页返回数据的节点，可以为class 或者 id，如为class，则值为 .className,如为Id 则为 #id，如果不是ajax分页则无需设置
+			</description>
+			<name>contentId</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
