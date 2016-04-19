@@ -12,9 +12,9 @@ public interface RoleService {
 
     public int updateRole(Role role) throws Exception;
 
-    public int deleteRole(Long roleId) throws Exception;
+    public int deleteRole(int roleId) throws Exception;
 
-    public Role findById(Long roleId) throws Exception;
+    public Role findById(int roleId) throws Exception;
 
     public List<Role> findAll() throws Exception;
 

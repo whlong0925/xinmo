@@ -37,20 +37,16 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">
-		<ul>
-			<li><a href="#">Prev</a></li>
-			<li class="active"><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">Next</a></li>
-		</ul>
-	</div>
 	<a href="#" class="btn btn-success j_add" action="role/0">New Role</a>
 </div>
 <script>
 	$(document).ready(function() {
+		
+		var message = "${message}";
+		if(message!=""){
+			alert(message);
+		}
+		
 		$('.dropdown-menu li a').hover(
 		function() {
 			$(this).children('i').addClass('icon-white');

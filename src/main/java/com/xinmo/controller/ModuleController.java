@@ -1,6 +1,10 @@
 package com.xinmo.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,12 +26,31 @@ public class ModuleController {
 
     @RequestMapping(value = "/list")
     public String list(Model model) throws Exception {
-        List<Function> functionList = this.functionService.findByType(Constants.MODULE_TYPE);
-        model.addAttribute("moduleList", functionList);
+        List<Function> functionList = this.functionService.findAll();
+        List<Function> moduleList = buildTreeTableList(functionList);
+        model.addAttribute("moduleList", moduleList);
         return "module/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    private List<Function> buildTreeTableList(List<Function> functionList) {
+    	Map<String,List<Function>> map = new LinkedHashMap<>();
+		for(Function function : functionList){
+			String id = ""+function.getId();
+			int parentId = function.getParentId();
+			String parentKey = ""+parentId;
+			if(map.containsKey(id)){
+				List<Function> list = map.get(id);
+				list.add(function);
+			}else{
+				List<Function> list = new ArrayList<Function>();
+				list.add(function);
+				map.put(id, list);
+			}
+		}
+		return functionList;
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showFunction(@PathVariable("id") Long id, Model model)
             throws Exception {
         if (id > 0) {

@@ -14,9 +14,9 @@ public class RoleFunction  implements Serializable{
 
     private Integer id;
 
-    private Role role;
+    private Integer roleId;
 
-    private Function function;
+    private Integer functionId;
 
     private Date createTime;
 
@@ -25,6 +25,10 @@ public class RoleFunction  implements Serializable{
 
     public RoleFunction(Integer id) {
         this.id = id;
+    }
+    public RoleFunction(Integer roleId,Integer functionId) {
+    	this.roleId = roleId;
+    	this.functionId = functionId;
     }
 
     public void setId(Integer value) {
@@ -35,23 +39,24 @@ public class RoleFunction  implements Serializable{
         return this.id;
     }
 
-    public Role getRole() {
-        return this.role;
-    }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    public Integer getRoleId() {
+		return roleId;
+	}
 
-    public Function getFunction() {
-        return this.function;
-    }
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public void setFunction(Function function) {
-        this.function = function;
-    }
+	public Integer getFunctionId() {
+		return functionId;
+	}
 
-    public void setCreateTime(java.util.Date value) {
+	public void setFunctionId(Integer functionId) {
+		this.functionId = functionId;
+	}
+
+	public void setCreateTime(java.util.Date value) {
         this.createTime = value;
     }
 

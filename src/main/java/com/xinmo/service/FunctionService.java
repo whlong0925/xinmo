@@ -5,6 +5,7 @@ import java.util.List;
 import com.xinmo.entity.Function;
 
 public interface FunctionService {
+	
     public List<Function> findByType(int type) throws Exception;
 
     public int insertFunction(Function function) throws Exception;
@@ -14,4 +15,9 @@ public interface FunctionService {
     public int deleteFunction(Long functionId) throws Exception;
 
     public Function findById(Long functionId) throws Exception;
+    
+    public List<Function> findAll() throws Exception;
+
+	public List<Function> findByRole(int roleId) throws Exception;
+	
 }

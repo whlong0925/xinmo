@@ -17,6 +17,8 @@ public class Role  implements Serializable{
     private java.util.Date createTime;
     private Integer checked;
 
+    private String functionIds;//拥有的功能
+    
     public Role() {
     }
 
@@ -64,7 +66,16 @@ public class Role  implements Serializable{
         this.checked = checked;
     }
 
-    @Override
+    
+    public String getFunctionIds() {
+		return functionIds;
+	}
+
+	public void setFunctionIds(String functionIds) {
+		this.functionIds = functionIds;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
             .append("Id", getId()).append("Name", getName())

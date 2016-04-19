@@ -48,4 +48,24 @@
           #{item}                
         </foreach>
   	</select>
+  	
+  	<insert id="insertRoleFunction" parameterType="java.util.List">
+  		INSERT INTO tb_role_function(
+		  roleId,
+		  functionId,
+		  createTime
+		) 
+		VALUES
+		<foreach collection="list" item="item" index="index"  separator=", ">  
+		  (
+		    #{item.roleId},
+		    #{item.functionId},
+		    now()
+		  )
+		 </foreach>
+  	</insert>
+  	
+  	<delete id="deleteRoleFunctionByRoleId" parameterType="int">
+  		delete from tb_role_function where roleId = #{roleId}
+  	</delete>
 </mapper>

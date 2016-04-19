@@ -47,9 +47,14 @@
 	</select>
 
 	<select id="findAll" resultType="Function">
-		select * from tb_function
+		select * from tb_function order by functionType asc,sequence asc
 	</select>
 	<select id="findByType" resultType="Function" parameterType="int">
 		select * from tb_function where functionType = #{functionType}
+	</select>
+	<select id="findByRole" parameterType="int" resultType="Function">
+		SELECT f.id AS 'id',f.name AS 'name',f.parentId AS 'parentId',IF(rf.id,TRUE,FALSE) AS 'checked' 
+		FROM tb_function f LEFT JOIN tb_role_function rf ON f.id = rf.functionId AND rf.roleId = #{roleId} 
+		WHERE f.status = 0;
 	</select>
 </mapper>

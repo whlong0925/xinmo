@@ -1,8 +1,6 @@
 package com.xinmo.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +9,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.xinmo.entity.Function;
 import com.xinmo.entity.Role;
+import com.xinmo.service.FunctionService;
 import com.xinmo.service.RoleService;
 
 @Controller
@@ -21,6 +21,8 @@ import com.xinmo.service.RoleService;
 public class RoleController {
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private FunctionService functionService;
 
     @RequestMapping(value = "/list")
     public String list(Model model) throws Exception {
@@ -28,23 +30,17 @@ public class RoleController {
         model.addAttribute("roleList", roleList);
         return "role/list";
     }
-    @RequestMapping(value = "/tree")
-    public String tree(Model model) throws Exception {
-        Map<String, Integer> pMap = new HashMap<>();
-        pMap.put("p_type", 1);
-        pMap.put("p_role_id", null);
-        List<Function> funs =  this.roleService.findTree(pMap);
-        model.addAttribute("sys_module", funs);
-        return "role/tree";
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String showRole(@PathVariable("id") Long id, Model model)
-            throws Exception {
+    public String showRole(@PathVariable("id") int id, Model model) throws Exception {
         if (id > 0) {
             Role role = this.roleService.findById(id);
             model.addAttribute("role", role);
+        }else{
+        	id = 0;
         }
+        List<Function> functionList = this.functionService.findByRole(id);
+    	model.addAttribute("functionList", functionList);
         return "role/add";
     }
 
@@ -55,14 +51,15 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable("id") Long id) throws Exception {
+    public String delete(@PathVariable("id") int id) throws Exception {
         this.roleService.deleteRole(id);
         return "redirect:/role/list";
     }
 
     @RequestMapping(value = "/add")
-    public String add(@ModelAttribute("role") Role role) throws Exception {
+    public String add(@ModelAttribute("role") Role role, RedirectAttributes redirectAttributes) throws Exception {
         this.roleService.insertRole(role);
+        redirectAttributes.addFlashAttribute("message", "角色添加成功");
         return "redirect:/role/list";
     }
 }

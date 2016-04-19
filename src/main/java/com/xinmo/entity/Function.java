@@ -23,12 +23,12 @@ public class Function implements Serializable {
     private Integer functionType;//0 模板 1功能 2子功能
     private Integer sequence;
     private Date createTime;
+    
+    private boolean checked;
     /**
      * 父功能下的子功能
      */
     private List<Function> functionList = new ArrayList<>();
-    
-    private int isChecked;
     
     public Integer getId() {
         return this.id;
@@ -118,15 +118,15 @@ public class Function implements Serializable {
         this.functionList = functionList;
     }
 
-    public int getIsChecked() {
-        return this.isChecked;
-    }
+	public boolean getChecked() {
+		return checked;
+	}
 
-    public void setIsChecked(int isChecked) {
-        this.isChecked = isChecked;
-    }
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
 
-    @Override
+	@Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
             .append("Id", getId()).append("Name", this.getName())

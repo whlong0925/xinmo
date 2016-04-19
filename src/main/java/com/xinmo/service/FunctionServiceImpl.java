@@ -38,4 +38,22 @@ public class FunctionServiceImpl implements FunctionService {
         return this.functionMapper.findByType(type);
     }
 
+	@Override
+	public List<Function> findAll() throws Exception {
+		return this.functionMapper.findAll();
+	}
+
+	/**
+	 * roleId = 0 表示查询所有功能 
+	 * >0 表示查询具体角色对应的功能
+	 */
+	@Override
+	public List<Function> findByRole(int roleId) throws Exception {
+		if(roleId>0){
+			return this.functionMapper.findByRole(roleId);
+		}else{
+			return this.functionMapper.findAll();
+		}
+	}
+
 }

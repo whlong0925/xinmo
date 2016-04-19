@@ -17,14 +17,13 @@
 	<script src="${webRoot}/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     $(function(){
-    	$.ajaxSetup({
+    	 $.ajaxSetup({
     		contentType: "application/x-www-form-urlencoded;charset=utf-8",
     		//type: "POST",
     		beforeSend: function(){
     			//$.messager.progress();
     		},
     		complete:function(XMLHttpRequest,textStatus){
-    			debugger;
     			var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); //通过XMLHttpRequest取得响应头，sessionstatus，  
     	         if(sessionstatus=="timeout"){ 
     	        	 //如果超时就处理 ，指定要跳转的页面 
@@ -32,7 +31,7 @@
     	         }
     		}
     		
-    	});
+    	}); 
     	//左侧菜单点击
     	$("ul.j_menu li").click(function(){
     		$("ul.j_menu li").removeClass("active");
@@ -118,7 +117,7 @@
               <li class="nav-header"><i class="icon-wrench"></i> 系统管理</li>
               <li><a href="#" action="user/list">用户管理</a></li>
               <li><a href="#" action="role/list">角色管理</a></li>
-              <li><a href="role/tree">角色树</a></li>
+              <li><a href="#" action="role/tree">角色树</a></li>
               <li><a href="#" action="module/list">模块管理</a></li>
               <li><a href="#" action="function/list">功能管理</a></li>
               <li class="nav-header"><i class="icon-signal"></i> 菜单列表2</li>

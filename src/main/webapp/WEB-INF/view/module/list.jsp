@@ -1,12 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="webRoot" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" href="${webRoot}/js/treetable/css/jquery.treetable.css">
+<link rel="stylesheet" href="${webRoot}/js/treetable/css/jquery.treetable.theme.default.css">
+<script src="${webRoot}/js/treetable/jquery.treetable.js"></script>
 <div class="row-fluid">
 	<div class="page-header">
 		<h1>
 			Modules <small>All modules</small>
 		</h1>
 	</div>
-	<table class="table table-striped table-bordered table-condensed">
+	<table class="table table-striped table-bordered table-condensed" id="moduleTable">
 		<thead>
 			<tr>
 				<th>名称</th>
@@ -16,37 +20,18 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${moduleList}" var="item" varStatus="loop">
-				<tr class="list-users">
+				<%-- <tr class="list-users" data-tt-id='${item.id}' <c:if test="${item.parentId>0}">data-tt-parent-id='${item.parentId}'</c:if>> --%>
+				<tr class="list-users" data-tt-id='${item.id}' <c:if test="${item.parentId>0}">data-tt-parent-id='${item.parentId}'</c:if>>
 					<td>${item.name}</td>
 					<td>${item.description }</td>
 					<td>
-						<div class="btn-group">
-							<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown"	href="#">Actions <span class="caret"></span></a>
-							<ul class="dropdown-menu pull-right">
-								<li><a href="#" onclick="edit(${item.id})"><i class="icon-pencil"></i> Edit</a></li>
-								<li><a href="#" onclick="delModule(${item.id})"><i class="icon-trash"></i> Delete</a></li>
-								<li><a href="#"><i class="icon-user"></i> Details</a></li>
-								<li class="nav-header">Permissions</li>
-								<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>
-								<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>
-								<li><a href="#"><i class="icon-lock"></i> Make <strong>User</strong></a></li>
-							</ul>
-						</div>
+						<a href="#" onclick="edit(${item.id})"><i class="icon-pencil"></i> Edit</a>
+						<a href="#" onclick="delModule(${item.id})"><i class="icon-trash"></i> Delete</a>
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">
-		<ul>
-			<li><a href="#">Prev</a></li>
-			<li class="active"><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">Next</a></li>
-		</ul>
-	</div>
 	<a href="#" class="btn btn-success j_add" action="module/0">New Module</a>
 </div>
 <script>
@@ -64,7 +49,7 @@
 			$('tr.list-users td div ul').addClass('pull-right');
 		}
 		
-		
+		$("#moduleTable").treetable({ expandable: true });
 	});
 	
 	function edit(id){
