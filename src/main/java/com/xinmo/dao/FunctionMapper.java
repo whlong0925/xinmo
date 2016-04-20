@@ -11,4 +11,6 @@ public interface FunctionMapper extends BaseMapper<Function>{
 
 	List<Function> findByRole(int roleId);
 
+	long findByParentId(int functionId);
+
 }

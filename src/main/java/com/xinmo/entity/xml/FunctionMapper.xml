@@ -57,4 +57,8 @@
 		FROM tb_function f LEFT JOIN tb_role_function rf ON f.id = rf.functionId AND rf.roleId = #{roleId} 
 		WHERE f.status = 0;
 	</select>
+	
+	<select id="findByParentId" parameterType="int" resultType="long">
+		select count(*) from tb_function where parentId = #{parentId};
+	</select>
 </mapper>

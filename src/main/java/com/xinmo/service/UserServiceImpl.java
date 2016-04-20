@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xinmo.dao.UserMapper;
+import com.xinmo.entity.Function;
 import com.xinmo.entity.Page;
+import com.xinmo.entity.Role;
+import com.xinmo.entity.RoleUser;
 import com.xinmo.entity.User;
 
 @Service("userService")
@@ -60,5 +63,22 @@ public class UserServiceImpl implements UserService {
 		long totalCount = this.userMapper.getTotalCount(pager.getParam());
 		pager.setTotalCount(totalCount);
 		return pager;
+	}
+
+	@Override
+	public List<Role> findRoleByUserId(long userId) throws Exception {
+		List<Role> roleList = this.userMapper.findRoleByUserId(userId);
+		return roleList;
+	}
+
+	@Override
+	public void insertRoleUser(List<RoleUser> roleUserList) throws Exception {
+		this.userMapper.insertRoleUser(roleUserList);
+		
+	}
+
+	@Override
+	public List<Function> findMenusByUserId(Long userId) throws Exception {
+		return this.userMapper.findMenusByUserId(userId);
 	}
 }

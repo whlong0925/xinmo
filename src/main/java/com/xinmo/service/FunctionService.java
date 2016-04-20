@@ -12,9 +12,9 @@ public interface FunctionService {
 
     public int updateFunction(Function function) throws Exception;
 
-    public int deleteFunction(Long functionId) throws Exception;
+    public int deleteFunction(int functionId) throws Exception;
 
-    public Function findById(Long functionId) throws Exception;
+    public Function findById(int functionId) throws Exception;
     
     public List<Function> findAll() throws Exception;
 

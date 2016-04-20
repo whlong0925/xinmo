@@ -22,7 +22,12 @@ public class RoleUser  implements Serializable {
         this.id = id;
     }
 
-    public void setId(Integer value) {
+    public RoleUser(long userId, int roleId) {
+		this.userId = userId;
+		this.roleId = roleId;
+	}
+
+	public void setId(Integer value) {
         this.id = value;
     }
 

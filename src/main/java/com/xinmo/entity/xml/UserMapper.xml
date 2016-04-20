@@ -48,4 +48,31 @@
   	<include refid="user_sql_where"></include>
   	limit #{start},#{pageSize}
   </select>
+  
+  <select id="findRoleByUserId" parameterType="long" resultType="Role">
+  	SELECT  r.*,IF(ru.id,TRUE,FALSE) as 'checked' FROM tb_role r LEFT JOIN tb_role_user ru ON r.id = ru.roleId AND ru.userId = #{userId}
+  </select>
+  <insert id="insertRoleUser" parameterType="java.util.List">
+  		INSERT INTO tb_role_user(
+		  roleId,
+		  userId,
+		  createTime
+		) 
+		VALUES
+		<foreach collection="list" item="item" index="index"  separator=", ">  
+		  (
+		    #{item.roleId},
+		    #{item.userId},
+		    now()
+		  )
+		 </foreach>
+  	</insert>
+  	
+  	<select id="findMenusByUserId" parameterType="long" resultType="Function">
+	  	SELECT f.id AS 'id',f.parentId AS 'parentId',f.name AS 'name',f.functionType AS 'functionType',f.path as 'path' FROM tb_role_function rf 
+		LEFT JOIN tb_role_user ru ON rf.roleId = ru.roleId 
+		LEFT JOIN tb_function f ON rf.functionId = f.id
+		WHERE ru.userId = #{userId} AND f.functionType!=2
+		ORDER BY f.functionType,f.sequence
+  	</select>
 </mapper>

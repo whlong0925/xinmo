@@ -1,61 +1,57 @@
 package com.xinmo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.xinmo.entity.Function;
 import com.xinmo.service.FunctionService;
-import com.xinmo.util.Constants;
 
 @Controller
 @RequestMapping("/function")
 public class FunctionController {
-    @Autowired
-    private FunctionService functionService;
+	@Autowired
+	private FunctionService functionService;
 
-    @RequestMapping(value = "/list")
-    public String list(Model model) throws Exception {
-        List<Function> functionList = this.functionService.findByType(Constants.FUNCTION_TYPE);
-        model.addAttribute("functionList", functionList);
-        return "function/list";
-    }
+	/**
+	 * 添加
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
+	public String showFunction(@PathVariable("id") int id, Model model) throws Exception {
+		Function function = this.functionService.findById(id);
+		model.addAttribute("parentName", function.getName());
+		model.addAttribute("parentId", function.getId());
+		int functionType = function.getFunctionType()==0?1:2;
+		model.addAttribute("functionType", functionType);
+		return "function/add";
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String showFunction(@PathVariable("id") Long id, Model model)
-            throws Exception {
-        List<Function> moduleList = this.functionService.findByType(Constants.MODULE_TYPE);
-        model.addAttribute("moduleList", moduleList);
-        if (id > 0) {
-            Function function = this.functionService.findById(id);
-            model.addAttribute("function", function);
-        }
-        return "function/add";
-    }
+	/**
+	 * 编辑
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String editFunction(@PathVariable("id") int id, Model model)
+			throws Exception {
+		Function function = this.functionService.findById(id);
+		model.addAttribute("function", function);
+		Function parentFunction = this.functionService.findById(function.getParentId());
+		model.addAttribute("parentName", parentFunction.getName());
+		model.addAttribute("parentId", parentFunction.getId());
+		model.addAttribute("functionType", function.getFunctionType());
+		return "function/add";
+	}
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("function") Function function) throws Exception {
-        function.setFunctionType(Constants.FUNCTION_TYPE);
-        this.functionService.updateFunction(function);
-        return "redirect:/function/list";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable("id") Long id) throws Exception {
-        this.functionService.deleteFunction(id);
-        return "redirect:/function/list";
-    }
-
-    @RequestMapping(value = "/add")
-    public String add(@ModelAttribute("function") Function function) throws Exception {
-        function.setFunctionType(Constants.FUNCTION_TYPE);
-        this.functionService.insertFunction(function);
-        return "redirect:/function/list";
-    }
 }

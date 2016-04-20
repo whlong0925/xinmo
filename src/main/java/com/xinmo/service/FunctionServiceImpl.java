@@ -24,13 +24,17 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     @Override
-    public int deleteFunction(Long functionId) throws Exception {
-        return this.functionMapper.deleteById(functionId);
+    public int deleteFunction(int functionId) throws Exception {
+    	long count = this.functionMapper.findByParentId(functionId);
+    	if(count>0){
+    		throw new RuntimeException("存在关联数据，不能删除");
+    	}
+        return this.functionMapper.deleteById((long)functionId);
     }
 
     @Override
-    public Function findById(Long functionId) throws Exception {
-        return this.functionMapper.findById(functionId);
+    public Function findById(int functionId) throws Exception {
+        return this.functionMapper.findById((long)functionId);
     }
 
     @Override

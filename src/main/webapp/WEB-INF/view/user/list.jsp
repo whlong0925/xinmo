@@ -28,7 +28,7 @@
 							<ul class="dropdown-menu pull-right">
 								<li><a href="#" onclick="edit(${item.id})"><i class="icon-pencil"></i> Edit</a></li>
 								<li><a href="#" onclick="delUser(${item.id})"><i class="icon-trash"></i> Delete</a></li>
-								<li><a href="#"><i class="icon-user"></i> Details</a></li>
+								<li><a href="#" onclick="role(${item.id})"><i class="icon-user"></i>Roles</a></li>
 								<li class="nav-header">Permissions</li>
 								<li><a href="#"><i class="icon-lock"></i> Make <strong>Admin</strong></a></li>
 								<li><a href="#"><i class="icon-lock"></i> Make <strong>Moderator</strong></a></li>
@@ -41,7 +41,7 @@
 		</tbody>
 	</table>
 	<g:pagination pageObj="${pager}" isAjax="true" contentId=".j_content" hrefLink="user/list" />
-	<a href="#" class="btn btn-success j_add" action="user/0">New User</a>
+	<a href="#" class="btn btn-success j_add" action="user/show">New User</a>
 </div>
 <script>
 	$(document).ready(function() {
@@ -57,16 +57,18 @@
 		{
 			$('tr.list-users td div ul').addClass('pull-right');
 		}
-		
-		
 	});
 	
 	function edit(id){
-		var url = "/user/"+id;
+		var url = "user/edit/"+id;
 		turnPage(url,"get",'');
 	}
 	function delUser(id){
 		var url = "user/delete/"+id;
+		turnPage(url,"get",'');
+	}
+	function role(userId){
+		var url = "user/role/"+userId;
 		turnPage(url,"get",'');
 	}
 	</script>

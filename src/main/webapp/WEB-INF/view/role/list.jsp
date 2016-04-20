@@ -37,7 +37,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<a href="#" class="btn btn-success j_add" action="role/0">New Role</a>
+	<a href="#" class="btn btn-success j_add" action="role/show">New Role</a>
 </div>
 <script>
 	$(document).ready(function() {
@@ -64,7 +64,7 @@
 	});
 	
 	function edit(id){
-		var url = "/role/"+id;
+		var url = "role/edit/"+id;
 		turnPage(url,"get",'');
 	}
 	function delRole(id){

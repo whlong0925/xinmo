@@ -14,12 +14,20 @@
 				</div>
 			</div>
 			<div class="control-group">
+				<label class="control-label" for="name">排序</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="sequence" name="sequence" value="${module.sequence}"/>
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label" for="name">描述</label>
 				<div class="controls">
 					<input type="text" class="input-xlarge" id="description" name="description" value="${module.description}"/>
 				</div>
 			</div>
 			<input type="hidden" name="id" value="${module.id}" id="moduleId"/>
+			<input type="hidden" name="parentId" value="0" id="moduleId"/>
+			<input type="hidden" name="functionType" value="0" id="functionType"/>
 			<div class="form-actions">
 				<input type="button" class="btn btn-success btn-large j_submit"
 					value="Save Module" /> <a class="btn" href="#">Cancel</a>

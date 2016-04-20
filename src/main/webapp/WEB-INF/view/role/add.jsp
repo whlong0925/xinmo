@@ -52,7 +52,7 @@ $(function () {
 	var setting = {
 			check:{
 				 enable: true,
-				 chkboxType:{ "Y" : "ps", "N" : "ps" }
+				 chkboxType:{ "Y" : "p", "N" : "s" }
 			},
 			data: {
 				simpleData: {

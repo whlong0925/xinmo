@@ -113,7 +113,7 @@
       <!-- 左侧菜单开始 -->
         <div class="span3">
           <div class="well sidebar-nav">
-            <ul class="nav nav-list j_menu">
+            <!-- <ul class="nav nav-list j_menu">
               <li class="nav-header"><i class="icon-wrench"></i> 系统管理</li>
               <li><a href="#" action="user/list">用户管理</a></li>
               <li><a href="#" action="role/list">角色管理</a></li>
@@ -128,6 +128,15 @@
               <li><a href="#">功能菜单1</a></li>
               <li><a href="#">功能菜单2</a></li>
 			  <li><a href="#">功能菜单3</a></li> 
+            </ul> -->
+            
+            <ul class="nav nav-list j_menu">
+            	<c:forEach items="${menuMap}" var="item">
+            		<li class="nav-header"><i class="icon-wrench"></i>${moduleMap[item.key]}</li>
+            		<c:forEach items="${item.value}" var="module">
+            			 <li><a href="#" action="${module.path}">${module.name}</a></li>
+            		</c:forEach>
+            	</c:forEach>
             </ul>
           </div>
         </div>

@@ -9,23 +9,19 @@
 	<form id="functionForm" class="form-horizontal" method="post">
 		<fieldset>
 			<div class="control-group">
-				<label class="control-label" for="name">功能名称</label>
+				<label class="control-label" for="name">父级别</label>
+				<div class="controls">
+					${parentName}
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="name">资源名称</label>
 				<div class="controls">
 					<input type="text" class="input-xlarge" id="name" name="name" value="${function.name }"/>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="name">所属模块</label>
-				<div class="controls">
-					<select name="parentId" id="parentId">
-							<c:forEach items="${moduleList}" var="f">
-								<option value="${f.id}" <c:if test="${function.parentId == f.id}">selected="selected"</c:if> >
-		            				${f.name}
-								</option>
-							</c:forEach>
-                       </select>
-				</div>
-			</div>
+			
 			<div class="control-group">
 				<label class="control-label" for="name">功能路径</label>
 				<div class="controls">
@@ -45,9 +41,11 @@
 				</div>
 			</div>
 			<input type="hidden" name="id" value="${function.id}" id="functionId"/>
+			<input type="hidden" name="parentId" value="${parentId}" id="parentId"/>
+			<input type="hidden" name="functionType" value="${functionType}" id="functionType"/>
 			<div class="form-actions">
 				<input type="button" class="btn btn-success btn-large j_submit"
-					value="Save Function" /> <a class="btn" href="#">Cancel</a>
+					value="Save Function" />
 			</div>
 		</fieldset>
 	</form>
@@ -55,9 +53,9 @@
 <script type="text/javascript">
 	$("#functionForm .j_submit").click(function() {
 		var functionId = $("#functionId").val();
-		var url = "function/add";
+		var url = "module/add";
 		if(functionId>0){
-			url = "function/update"
+			url = "module/update"
 		}
 		var data = $("#functionForm").serialize();
 		turnPage(url, "post", data);

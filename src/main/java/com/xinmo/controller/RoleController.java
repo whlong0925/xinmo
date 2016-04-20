@@ -31,17 +31,19 @@ public class RoleController {
         return "role/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String showRole(@PathVariable("id") int id, Model model) throws Exception {
-        if (id > 0) {
-            Role role = this.roleService.findById(id);
-            model.addAttribute("role", role);
-        }else{
-        	id = 0;
-        }
-        List<Function> functionList = this.functionService.findByRole(id);
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    public String showRole(Model model) throws Exception {
+        List<Function> functionList = this.functionService.findByRole(0);
     	model.addAttribute("functionList", functionList);
         return "role/add";
+    }
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editRole(@PathVariable("id") int id, Model model) throws Exception {
+		Role role = this.roleService.findById(id);
+		model.addAttribute("role", role);
+    	List<Function> functionList = this.functionService.findByRole(id);
+    	model.addAttribute("functionList", functionList);
+    	return "role/add";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
