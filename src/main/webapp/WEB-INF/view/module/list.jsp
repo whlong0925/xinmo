@@ -63,14 +63,14 @@
 		turnPage(url,"get",'');
 	}
 	function edit(id,functionType){
-		var url = "module/edit/"+id;
+		var url = "module/"+id+"/edit";
 		if(functionType>0){
-			url = "function/edit/"+id;
+			url = "function/"+id+"/edit";
 		}
 		turnPage(url,"get",'');
 	}
 	function delModule(id){
-		var url = "module/delete/"+id;
+		var url = "module/"+id+"/delete";
 		turnPage(url,"get",'');
 	}
 	</script>

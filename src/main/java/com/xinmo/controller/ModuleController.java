@@ -78,7 +78,7 @@ public class ModuleController {
     public String showFunction(Model model) throws Exception {
         return "module/add";
     }
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editFunction(@PathVariable("id") int id, Model model) throws Exception {
 		Function function = this.functionService.findById(id);
 		model.addAttribute("module", function);
@@ -91,7 +91,7 @@ public class ModuleController {
         return "redirect:/module/list";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") int id) throws Exception {
         this.functionService.deleteFunction(id);
         return "redirect:/module/list";

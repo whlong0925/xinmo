@@ -64,11 +64,11 @@
 	});
 	
 	function edit(id){
-		var url = "role/edit/"+id;
+		var url = "role/"+id+"/edit";
 		turnPage(url,"get",'');
 	}
 	function delRole(id){
-		var url = "role/delete/"+id;
+		var url = "role/"+id+"/delete";
 		turnPage(url,"get",'');
 	}
 	</script>

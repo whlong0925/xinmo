@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
 <%@ taglib prefix="g" uri="http://www.xinmo.net/xinmo"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="webRoot" value="${pageContext.request.contextPath}"/>
 <html lang="en">
   <head>
@@ -79,7 +80,7 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-			  <li><a href="my-profile.html">个人信息</a></li>
+			  <li><a href="#">个人信息</a></li>
               <li class="divider"></li>
               <li><a href="logout">退出</a></li>
             </ul>
@@ -113,23 +114,6 @@
       <!-- 左侧菜单开始 -->
         <div class="span3">
           <div class="well sidebar-nav">
-            <!-- <ul class="nav nav-list j_menu">
-              <li class="nav-header"><i class="icon-wrench"></i> 系统管理</li>
-              <li><a href="#" action="user/list">用户管理</a></li>
-              <li><a href="#" action="role/list">角色管理</a></li>
-              <li><a href="#" action="role/tree">角色树</a></li>
-              <li><a href="#" action="module/list">模块管理</a></li>
-              <li><a href="#" action="function/list">功能管理</a></li>
-              <li class="nav-header"><i class="icon-signal"></i> 菜单列表2</li>
-              <li><a href="#">功能菜单1</a></li>
-              <li><a href="#">功能菜单2</a></li>
-              <li><a href="#">功能菜单3</a></li>
-              <li class="nav-header"><i class="icon-user"></i> 菜单列表3</li>
-              <li><a href="#">功能菜单1</a></li>
-              <li><a href="#">功能菜单2</a></li>
-			  <li><a href="#">功能菜单3</a></li> 
-            </ul> -->
-            
             <ul class="nav nav-list j_menu">
             	<c:forEach items="${menuMap}" var="item">
             		<li class="nav-header"><i class="icon-wrench"></i>${moduleMap[item.key]}</li>

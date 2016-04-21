@@ -37,7 +37,7 @@ public class RoleController {
     	model.addAttribute("functionList", functionList);
         return "role/add";
     }
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editRole(@PathVariable("id") int id, Model model) throws Exception {
 		Role role = this.roleService.findById(id);
 		model.addAttribute("role", role);
@@ -52,7 +52,7 @@ public class RoleController {
         return "redirect:/role/list";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") int id) throws Exception {
         this.roleService.deleteRole(id);
         return "redirect:/role/list";

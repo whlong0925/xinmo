@@ -41,7 +41,7 @@ public class UserController {
 	public String showUser(Model model) throws Exception {
 		return "user/add";
 	}
-	@RequestMapping(value = "/role/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/role", method = RequestMethod.GET)
 	public String showUser(@PathVariable("userId") long userId,Model model) throws Exception {
 		List<Role> roleList = this.userService.findRoleByUserId(userId);
 		User user = this.userService.findById(userId);
@@ -64,13 +64,7 @@ public class UserController {
 		}
 		return "redirect:/user/list";
 	}
-public static void main(String[] args) {
-	String s = "2,3,";
-	for(String ss : s.split(",")){
-		System.out.println(ss);
-	}
-}
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editUser(@PathVariable("id") long id, Model model)
 			throws Exception {
 		User user = this.userService.findById(id);
@@ -85,7 +79,7 @@ public static void main(String[] args) {
 		return "redirect:/user/list";
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable("id") Long id) throws Exception {
 		this.userService.deleteUser(id);
 		return "redirect:/user/list";

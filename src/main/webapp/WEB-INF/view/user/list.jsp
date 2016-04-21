@@ -60,15 +60,15 @@
 	});
 	
 	function edit(id){
-		var url = "user/edit/"+id;
+		var url = "user/"+id+"/edit";
 		turnPage(url,"get",'');
 	}
 	function delUser(id){
-		var url = "user/delete/"+id;
+		var url = "user/"+id+"/delete";
 		turnPage(url,"get",'');
 	}
 	function role(userId){
-		var url = "user/role/"+userId;
+		var url = "user/"+userId+"/role";
 		turnPage(url,"get",'');
 	}
 	</script>

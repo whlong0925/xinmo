@@ -18,6 +18,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import com.xinmo.entity.Function;
 import com.xinmo.entity.Role;
@@ -52,16 +53,17 @@ public class UserRealm extends AuthorizingRealm {
             roleIdList.add(role.getId());
         }
         authorizationInfo.setRoles(roleSet);
-        List<Function> functionList = this.roleService
-            .findPermissions(roleIdList);
-        Set<String> functionSet = new HashSet<>();
-        for (Function function : functionList) {
-            if (StringUtils.isNotEmpty(function.getPath())) {
-                functionSet.add(function.getPath());
-            }
+        if(!CollectionUtils.isEmpty(roleIdList)){
+        	List<Function> functionList = this.roleService
+                    .findPermissions(roleIdList);
+                Set<String> functionSet = new HashSet<>();
+                for (Function function : functionList) {
+                    if (StringUtils.isNotEmpty(function.getPath())) {
+                        functionSet.add(function.getPath());
+                    }
+                }
+                authorizationInfo.setStringPermissions(functionSet);
         }
-        authorizationInfo.setStringPermissions(functionSet);
-
         return authorizationInfo;
     }
 

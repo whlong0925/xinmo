@@ -24,7 +24,7 @@ public class FunctionController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
 	public String showFunction(@PathVariable("id") int id, Model model) throws Exception {
 		Function function = this.functionService.findById(id);
 		model.addAttribute("parentName", function.getName());
@@ -42,7 +42,7 @@ public class FunctionController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public String editFunction(@PathVariable("id") int id, Model model)
 			throws Exception {
 		Function function = this.functionService.findById(id);
