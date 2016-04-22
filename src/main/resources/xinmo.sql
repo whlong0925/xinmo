@@ -2,7 +2,7 @@
 SQLyog Ultimate v11.25 (64 bit)
 MySQL - 5.6.25-log : Database - xinmo
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -32,11 +32,11 @@ CREATE TABLE `tb_function` (
   `sequence` smallint(6) DEFAULT '0' COMMENT '排序字段',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_function` */
 
-insert  into `tb_function`(`id`,`name`,`description`,`path`,`action`,`status`,`parentId`,`functionType`,`sequence`,`createTime`) values (1,'模块1','模块1',NULL,NULL,0,0,0,NULL,'2016-03-28 16:17:37'),(2,'功能1','功能1','/user/list',NULL,0,3,1,1,'2016-03-31 17:49:32'),(3,'模块2','模块2',NULL,NULL,0,0,0,NULL,'2016-03-28 16:17:38'),(4,'功能2','功能2','/role/list',NULL,0,1,1,2,'2016-03-31 17:49:48');
+insert  into `tb_function`(`id`,`name`,`description`,`path`,`action`,`status`,`parentId`,`functionType`,`sequence`,`createTime`) values (1,'系统管理','系统管理',NULL,NULL,0,0,0,1,'2016-04-20 15:42:40'),(2,'用户管理','用户管理','/user/list',NULL,0,1,1,1,'2016-04-20 15:43:35'),(3,'角色管理','角色管理','/role/list',NULL,0,1,1,2,'2016-04-20 15:44:10'),(4,'模块管理','模块管理','/module/list',NULL,0,1,1,3,'2016-04-20 15:44:38'),(5,'添加用户','添加用户','/user/add',NULL,0,2,2,1,'2016-04-20 16:06:03'),(6,'添加显示','查看用户','/user/show',NULL,0,2,2,2,'2016-04-20 16:12:59'),(7,'删除用户','删除用户','/user/*/delete',NULL,0,2,2,3,'2016-04-21 10:42:38'),(8,'更新用户','更新用户','/user/update',NULL,0,2,2,4,'2016-04-20 16:11:00'),(9,'编辑用户','编辑用户','/user/*/edit',NULL,0,2,2,5,'2016-04-21 10:42:43'),(10,'编辑角色','编辑角色','/role/*/edit',NULL,0,3,2,2,'2016-04-21 10:42:49'),(11,'更新角色','更新角色','/role/update',NULL,0,3,2,3,'2016-04-20 16:03:43'),(12,'删除角色','删除角色','/role/*/delete',NULL,0,3,2,4,'2016-04-21 10:42:54'),(13,'添加角色','添加角色','/role/add',NULL,0,3,2,1,'2016-04-20 16:15:27'),(14,'添加显示','添加显示','/role/show',NULL,0,3,2,5,'2016-04-20 16:16:19'),(15,'添加模块显示','添加模块显示','/module/show',NULL,0,4,2,1,'2016-04-20 16:17:55'),(16,'添加模块or功能','添加模块or功能','/module/add',NULL,0,4,2,2,'2016-04-20 16:22:33'),(17,'编辑模块','编辑模块','/module/*/edit',NULL,0,4,2,2,'2016-04-21 10:42:59'),(18,'更新模块或功能','更新模块或功能','/module/update',NULL,0,4,2,2,'2016-04-20 16:19:54'),(19,'删除模块或功能','删除模块或功能','/module/*/delete',NULL,0,4,2,4,'2016-04-21 10:43:05'),(20,'显示添加功能or子功能','显示添加功能or子功能','/function/*/show',NULL,0,4,2,6,'2016-04-21 10:43:10'),(21,'编辑功能or子功能','编辑功能or子功能','/function/*/edit',NULL,0,4,2,7,'2016-04-21 10:43:14'),(22,'显示用户角色','显示用户角色','/user/*/role',NULL,0,2,2,6,'2016-04-21 10:43:19'),(23,'添加用户角色','添加用户角色','/user/role/add',NULL,0,2,2,7,'2016-04-20 17:35:04');
 
 /*Table structure for table `tb_role` */
 
@@ -52,7 +52,7 @@ CREATE TABLE `tb_role` (
 
 /*Data for the table `tb_role` */
 
-insert  into `tb_role`(`id`,`name`,`description`,`createTime`) values (1,'admin','admin','2016-03-29 17:01:34'),(2,'operator','operator','2016-03-29 17:01:42');
+insert  into `tb_role`(`id`,`name`,`description`,`createTime`) values (1,'管理员','管理员','2016-04-20 16:35:56'),(2,'操作员','操作员','2016-04-20 16:57:28');
 
 /*Table structure for table `tb_role_function` */
 
@@ -64,11 +64,11 @@ CREATE TABLE `tb_role_function` (
   `functionId` smallint(6) DEFAULT '0' COMMENT '���ܱ�ID',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_role_function` */
 
-insert  into `tb_role_function`(`id`,`roleId`,`functionId`,`createTime`) values (1,1,2,'2016-03-29 17:02:23'),(2,1,4,'2016-03-29 17:02:26');
+insert  into `tb_role_function`(`id`,`roleId`,`functionId`,`createTime`) values (1,1,1,'2016-04-20 17:59:26'),(2,1,2,'2016-04-20 17:36:13'),(3,1,5,'2016-04-20 17:36:13'),(4,1,6,'2016-04-20 17:36:13'),(5,1,7,'2016-04-20 17:36:13'),(6,1,8,'2016-04-20 17:36:13'),(7,1,9,'2016-04-20 17:36:13'),(8,2,22,'2016-04-21 10:22:12'),(9,1,23,'2016-04-20 17:59:30'),(10,1,3,'2016-04-20 17:36:13'),(11,1,10,'2016-04-20 17:36:13'),(12,1,11,'2016-04-20 17:36:13'),(13,1,12,'2016-04-20 17:36:13'),(14,1,13,'2016-04-20 17:36:13'),(15,1,14,'2016-04-20 17:36:13'),(16,1,4,'2016-04-20 17:36:13'),(17,1,15,'2016-04-20 17:36:13'),(18,1,16,'2016-04-20 17:36:13'),(19,1,17,'2016-04-20 17:36:13'),(20,1,18,'2016-04-20 17:36:13'),(21,1,19,'2016-04-20 17:36:13'),(22,1,20,'2016-04-20 17:36:13'),(23,1,21,'2016-04-20 17:36:13');
 
 /*Table structure for table `tb_role_user` */
 
@@ -80,11 +80,11 @@ CREATE TABLE `tb_role_user` (
   `userId` bigint(20) DEFAULT '0',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_role_user` */
 
-insert  into `tb_role_user`(`id`,`roleId`,`userId`,`createTime`) values (1,1,1,'2016-03-29 17:01:50'),(2,2,1,'2016-03-29 17:01:58');
+insert  into `tb_role_user`(`id`,`roleId`,`userId`,`createTime`) values (1,1,1,'2016-04-20 17:31:49');
 
 /*Table structure for table `tb_user` */
 
@@ -93,7 +93,6 @@ DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) DEFAULT NULL,
-  `usercode` varchar(30) DEFAULT NULL COMMENT '登陆名',
   `password` varchar(50) DEFAULT NULL COMMENT '密码',
   `status` smallint(6) DEFAULT '0' COMMENT '用户状态 0正常 1删除',
   PRIMARY KEY (`id`)
@@ -101,7 +100,7 @@ CREATE TABLE `tb_user` (
 
 /*Data for the table `tb_user` */
 
-insert  into `tb_user`(`id`,`username`,`usercode`,`password`,`status`) values (1,'admin','admin','21232f297a57a5a743894a0e4a801fc3',0),(2,'aaa','aaa','47bce5c74f589f4867dbd57e9ca9f808',1);
+insert  into `tb_user`(`id`,`username`,`password`,`status`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3',0),(2,'op','21232f297a57a5a743894a0e4a801fc3',0);
 
 /* Procedure structure for procedure `sp_functions` */
 
